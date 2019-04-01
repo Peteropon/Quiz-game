@@ -36,38 +36,52 @@ function createAnswerButtons(result) {
 
 function renderData(array) {
 
-  //array.forEach((obj)=> {
-    let quizQuestion = document.getElementById('h2');
-    quizQuestion.innerText = array[0].question;
-    section.appendChild(quizQuestion);
-    var answers = [];
-    answers.push(array[0].correct_answer);
-    array[0].incorrect_answers.forEach((answer)=>{
-        answers.push(answer);
-    });
+    let answerGiven;
+    do {
+        let counter = 0;
 
-    answers.sort(function (a, b) {
-        return 0.5 - Math.random();
-    });
-    let answerArea = document.getElementById('answers');
-    answers.forEach( (answer) => {
-        var answerButton = document.createElement('button');
-        answerButton.innerHTML = `<button class="answerButton">'${answer}'</button>`;
-        answerArea.appendChild(answerButton);
+        answerGiven = false;
+        let quizQuestion = document.getElementById('h2');
+        let question = document.createElement('h2');
+        quizQuestion.innerText = "";
+      question.innerText = array[counter].question;
+        console.log(array[counter].question);
+      section.appendChild(question);
+      var answers = [];
+      answers.push(array[counter].correct_answer);
+      console.log(array[counter].correct_answer);
+      array[0].incorrect_answers.forEach((answer) => {
+          answers.push(answer);
+      });
 
-    });
-    answerArea.addEventListener('click', function (e) {
-        if (e.target.nodeName == 'BUTTON') {
-            if(e.target.innerText == ("'" + array[0].correct_answer + "'")){
-                alert("correct!");
-                console.log(array[0].correct_answer);
-            } else {
-                alert("wrong answer");
-                console.log(e.target.innerText);
-                console.log(array[0].correct_answer);
-            }
-        }
-    })
+      answers.sort(function (a, b) {
+          return 0.5 - Math.random();
+      });
+      let answerArea = document.getElementById('answers');
+      answers.forEach((answer) => {
+          var answerButton = document.createElement('button');
+          answerButton.innerHTML = `<button class="answerButton">'${answer}'</button>`;
+          answerArea.appendChild(answerButton);
+
+      });
+      answerArea.addEventListener('click', function (e) {
+          if (e.target.nodeName == 'BUTTON') {
+              if (e.target.innerText == ("'" + array[counter].correct_answer + "'")) {
+                  alert("correct!");
+                  console.log(array[counter].correct_answer);
+              } else {
+                  alert("wrong answer");
+                  console.log(e.target.innerText);
+                  console.log(array[counter].correct_answer);
+              }
+              answerGiven == true;
+              counter++;
+              console.log(counter);
+          }
+      })
+
+        if (counter == array.length) break;
+  }while (answerGiven)
 
     //createAnswerButtons(array[0]);
   //});
