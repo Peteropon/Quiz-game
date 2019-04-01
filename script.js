@@ -12,8 +12,8 @@ function assignAnswersToButtons(answers) {
     let answerButton = document.createElement('button');
     answerButton.innerHTML = `<button class="answerButton">'${answer}'</button>`;
     answerArea.appendChild(answerButton);
-    answerArea.addEventListener('click', function (e) {
-      if(e.target.nodeName == 'button'){
+    answerButton.addEventListener('click', function (e) {
+      if(answerButton.innerText == answer){
         alert("we have response")
       }
     })
@@ -33,15 +33,44 @@ function createAnswerButtons(result) {
   console.log(answers);
   return answers;
 }
+
 function renderData(array) {
 
-  array.forEach((obj)=> {
+  //array.forEach((obj)=> {
     let quizQuestion = document.getElementById('h2');
-    quizQuestion.innerText = obj.question;
+    quizQuestion.innerText = array[0].question;
     section.appendChild(quizQuestion);
-    createAnswerButtons(obj);
-    assignAnswersToButtons(createAnswerButtons(obj));
-  });
+    var answers = [];
+    answers.push(array[0].correct_answer);
+    array[0].incorrect_answers.forEach((answer)=>{
+        answers.push(answer);
+    });
+
+    answers.sort(function (a, b) {
+        return 0.5 - Math.random();
+    });
+    let answerArea = document.getElementById('answers');
+    answers.forEach( (answer) => {
+        var answerButton = document.createElement('button');
+        answerButton.innerHTML = `<button class="answerButton">'${answer}'</button>`;
+        answerArea.appendChild(answerButton);
+
+    });
+    answerArea.addEventListener('click', function (e) {
+        if (e.target.nodeName == 'BUTTON') {
+            if(e.target.innerText == ("'" + array[0].correct_answer + "'")){
+                alert("correct!");
+                console.log(array[0].correct_answer);
+            } else {
+                alert("wrong answer");
+                console.log(e.target.innerText);
+                console.log(array[0].correct_answer);
+            }
+        }
+    })
+
+    //createAnswerButtons(array[0]);
+  //});
 
   // data.forEach((result)=> {
   //   quizQuestion.innerText = result.question;
