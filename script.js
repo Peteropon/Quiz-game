@@ -5,14 +5,18 @@ var section = document.querySelector('section');
 document.getElementById('startbutton').addEventListener('click', getData);
 
 
-function assignAnswersToCards(answers) {
+
+function assignAnswersToButtons(answers) {
   let answerArea = document.getElementById('answers');
   answers.forEach( (answer) => {
-    let answerCard = document.createElement('div');
-    let answerText = document.createElement('p');
-    answerText.innerText = answer;
-    answerCard.appendChild(answerText);
-    answerArea.appendChild(answerCard);
+    let answerButton = document.createElement('button');
+    answerButton.innerHTML = `<button class="answerButton">'${answer}'</button>`;
+    answerArea.appendChild(answerButton);
+    answerArea.addEventListener('click', function (e) {
+      if(e.target.nodeName == 'button'){
+        alert("we have response")
+      }
+    })
   })
 }
 
@@ -27,14 +31,17 @@ function createAnswerButtons(result) {
     return 0.5 - Math.random();
   });
   console.log(answers);
-  assignAnswersToCards(answers);
+  return answers;
 }
+function renderData(array) {
 
-function renderData(data) {
-  let quizQuestion = document.getElementById('h2');
-  quizQuestion.innerText = data.question;
-  section.appendChild(quizQuestion);
-  createAnswerButtons(data);
+  array.forEach((obj)=> {
+    let quizQuestion = document.getElementById('h2');
+    quizQuestion.innerText = obj.question;
+    section.appendChild(quizQuestion);
+    createAnswerButtons(obj);
+    assignAnswersToButtons(createAnswerButtons(obj));
+  });
 
   // data.forEach((result)=> {
   //   quizQuestion.innerText = result.question;
@@ -50,7 +57,8 @@ function getData() {
       if(xhr.status == 200){
         console.log("Status: 200");
         data = xhr.response;
-        renderData(data.results[0]);
+        renderData(data.results);
+        //createAnswerButtons(data.results);
       }
     }
   }
