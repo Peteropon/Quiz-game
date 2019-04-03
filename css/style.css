@@ -9,3 +9,11 @@ body{
     width: 150px;
     display: block;
 }
+
+.correct{
+    background-color: chartreuse;
+}
+
+.wrong{
+    background-color: red;
+}
