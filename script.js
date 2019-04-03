@@ -1,4 +1,4 @@
-const url = "https://opentdb.com/api.php?amount=10&difficulty=medium&type=multiple";
+var url;
 var data;
 var quiz = [];
 var header = document.querySelector('header');
@@ -7,6 +7,7 @@ let h2 = document.createElement('h2');
 let answerArea = document.getElementById('answers');
 var iterator = 0;
 var wrongAnswers = [];
+var answers = [];
 var correctAnswer = "";
 var answerButton1 = document.getElementById('answer1');
 var answerButton2 = document.getElementById('answer2');
@@ -15,16 +16,38 @@ var answerButton4 = document.getElementById('answer4');
 
 
 document.getElementById('startbutton').onclick = play;
+var text = document.createElement('h3');
+text.innerText = 'Please select how many questions you want to answer and the level of difficulty.';
+header.appendChild(text);
+var questionSelector = document.getElementById('numberOfQuestions');
+var amount;
+questionSelector.addEventListener('change', function (e) {
+    amount = questionSelector[questionSelector.selectedIndex].value;
+});
+
+var levelSelector = document.getElementById('level');
+var level;
+levelSelector.addEventListener('change', function (e) {
+    level = levelSelector[levelSelector.selectedIndex].value;
+});
+
+//function chooseAmountQuestions() {
+
+//}
 
 function play(){
+    //chooseAmountQuestions();
+    //if (header.hasChildNodes()) header.removeChild(text);
+
+    url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${level}&type=multiple`;
+    getData(url);
     document.getElementById('startbutton').innerText = 'Restart';
-    getData();
+    resetData();
     console.log(quiz.length);
 
 }
 
 function getData() {
-    h2.innerText = "";
 
     const xhr = new XMLHttpRequest;
     xhr.onreadystatechange = function() {
@@ -33,7 +56,6 @@ function getData() {
                 console.log("Status: 200");
                 data = xhr.response;
                 quiz = data.results;
-                console.log(quiz.length);
 
                 renderData(quiz[iterator]);
             }
@@ -46,17 +68,16 @@ function getData() {
 
 
 
-function assignButtons(wrongAnswers, correct) {
+function assignButtons(answers, correct) {
 //    answers.forEach( (answer)=> {
 //    });
-    answerButton1.innerText = correct;
+    answerButton1.innerText = answers[3];
     answerArea.appendChild(answerButton1);
-    answerButton2.innerText = wrongAnswers[0];
+    answerButton2.innerText = answers[0];
     answerArea.appendChild(answerButton2);
-    answerButton3.innerText = wrongAnswers[1];
+    answerButton3.innerText = answers[1];
     answerArea.appendChild(answerButton3);
-    answerButton4.innerText = wrongAnswers[2];
-
+    answerButton4.innerText = answers[2];
     answerArea.appendChild(answerButton4);
 }
 
@@ -64,16 +85,18 @@ function renderData(quizQuestion) {
     h2.innerText = quizQuestion.question;
     header.appendChild(h2);
     correctAnswer = quizQuestion.correct_answer;
+    answers.push(correctAnswer);
     //wrongAnswers.push(quizQuestion.correct_answer);
     console.log(quizQuestion.correct_answer);
     quizQuestion.incorrect_answers.forEach((answer) => {
           wrongAnswers.push(answer);
+          answers.push(answer);
       });
 
-    wrongAnswers.sort(function (a, b) {
+    answers.sort(function (a, b) {
           return 0.5 - Math.random();
       });
-    assignButtons(wrongAnswers, correctAnswer);
+    assignButtons(answers, correctAnswer);
 
 }
 
@@ -82,21 +105,27 @@ function renderData(quizQuestion) {
     answerArea.addEventListener('click', function (e) {
         if (e.target.nodeName == 'BUTTON') {
             //alert("something");
-            console.log(wrongAnswers);
+            //console.log(wrongAnswers);
+            console.log(answers);
             wrongAnswers = [];
+            answers = [];
 
-            if (e.target.innerText == correctAnswer){
+            if (e.target.innerText == quiz[iterator].correct_answer){
                 console.log("correct");
                 e.target.classList.toggle('correct');
+                points++;
+                console.log(points);
                 setTimeout(()=> {
                     e.target.classList.toggle('correct');
                 }, 1000)
 
             } else {
                 e.target.classList.toggle('wrong');
+                //document.querySelector('correct').classList.toggle('correct');
                 console.log("wrong");
                 setTimeout(()=> {
                     e.target.classList.toggle('wrong');
+
                 }, 1000)
             }
             iterator++;
@@ -107,6 +136,15 @@ function renderData(quizQuestion) {
 
         }
     });
+
+function resetData() {
+    iterator = 0;
+    answers = [];
+    quiz = [];
+    points = 0;
+    h2.innerText = "";
+
+}
 
 
 //             answerArea.innerText = "";
