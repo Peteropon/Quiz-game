@@ -37,7 +37,6 @@ levelSelector.addEventListener('change', function (e) {
 
 function play(){
     //chooseAmountQuestions();
-    //if (header.hasChildNodes()) header.removeChild(text);
 
     url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${level}&type=multiple`;
     getData(url);
@@ -49,6 +48,7 @@ function play(){
 
 function getData() {
 
+    text.innerText = "";
     const xhr = new XMLHttpRequest;
     xhr.onreadystatechange = function() {
         if(xhr.readyState == 4){
