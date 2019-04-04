@@ -103,7 +103,6 @@ function giveReply(x) {
 
 answerArea.addEventListener('click', function (e) {
         if (e.target.nodeName == 'BUTTON') {
-            wrongAnswers = [];
             answers = [];
 
             if (e.target.innerText == quiz[iterator].correct_answer){
@@ -130,12 +129,21 @@ answerArea.addEventListener('click', function (e) {
 
                 }, 1000)
             }
-            iterator++;
 
-            setTimeout(()=> {
-                answerArea.innerText = "";
-                renderData(quiz[iterator]);
-            }, 2700)
+            if (iterator == quiz.length - 1) {
+                setTimeout(()=> {
+                    answerArea.innerText = "";
+                    h2.innerText = "You have completed the quiz. You got " + points + " correct answers out of " + quiz.length;
+                }, 2700)
+
+            }else  {
+                iterator++;
+                setTimeout(()=> {
+                    answerArea.innerText = "";
+                    renderData(quiz[iterator]);
+                }, 2700)
+
+            }
 
         }
 
@@ -151,6 +159,7 @@ function resetData() {
 }
 
 var progressBar = document.querySelector('progress');
+//iterator.addEventListener()
 //progressBar.addEventListener('change', )
 
 
