@@ -49,19 +49,20 @@ body{
 
 h2{
     font-family: "Sitka Display", serif;
-    color:rgb(245, 204, 7);
+    color: rgb(197, 167, 138);
     text-align: center;
 }
 
 h3{
+    font-family: "Sitka Display", solid;
     text-align: center;
     width: 100%;
-    color: rgb(228, 150, 75);
+    color: rgb(197, 167, 138);
 }
 
 h4{
     font-family: "Sitka Text";
-    color:rgb(245, 204, 7);
+    color: rgb(197, 167, 138);
     text-align: center;
 
 }
@@ -70,6 +71,7 @@ h4{
     padding: 5px;
     margin: 5px;
     border-radius:5px;
+    background-color: rgb(197, 167, 138);
 }
 
 #level{
@@ -77,13 +79,32 @@ h4{
     padding: 5px;
     margin: 5px;
     border-radius:5px;
+    background-color: rgb(197, 167, 138);
 }
 
 progress{
+    -webkit-appearance: progress-bar;
     margin: 15px;
     width: 250px;
     height: 15px;
     background-color: #eee;
     border-radius: 2px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+#startbutton{
+    color: ivory;
+    background-color: #e95f07;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 5px;
+    border: #067575;
+    -webkit-transition-duration: 0.9s; /* Safari */
+    transition-duration: 0.9s;
+}
+
+#startbutton:hover {
+    background-color: #edc7a4;
+    color: #2f4aa4;
+    cursor: pointer;
 }

@@ -16,7 +16,8 @@ progressBar.value = 1;
 
 document.getElementById('startbutton').onclick = play;
 var text = document.createElement('h3');
-text.innerText = 'Please select how many questions you want to answer and the level of difficulty.';
+text.innerText = 'Welcome! \n Please select the amount of questions you want to answer and the level of difficulty. ' +
+    '\n Then press the button to start. You can at any time press the restart button to restart the quiz.';
 header.appendChild(text);
 var questionSelector = document.getElementById('numberOfQuestions');
 var amount;
@@ -94,7 +95,7 @@ function renderData(quizQuestion) {
 
 
 function giveReply(x) {
-    var reply = document.createElement('h4');
+    var reply = document.createElement('h3');
     if (x == 'y') {
         reply.innerText = 'Correct! Good job!';
     } else {
