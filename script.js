@@ -8,6 +8,10 @@ let answerArea = document.getElementById('answers');
 var iterator = 0;
 var answers = [];
 var correctAnswer = "";
+var progressBar = document.querySelector('progress');
+progressBar.value = 1;
+
+
 
 
 document.getElementById('startbutton').onclick = play;
@@ -26,15 +30,13 @@ levelSelector.addEventListener('change', function (e) {
     level = levelSelector[levelSelector.selectedIndex].value;
 });
 
-//function chooseAmountQuestions() {
 
-//}
 
 function play(){
-    //chooseAmountQuestions();
 
     url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${level}&type=multiple`;
     getData(url);
+    progressBar.max = amount;
     document.getElementById('startbutton').innerText = 'Restart';
     resetData();
     console.log(quiz.length);
@@ -94,7 +96,7 @@ function renderData(quizQuestion) {
 function giveReply(x) {
     var reply = document.createElement('h4');
     if (x == 'y') {
-        reply.innerText = 'Correct! Well done!';
+        reply.innerText = 'Correct! Good job!';
     } else {
         reply.innerText = 'Wrong answer. The correct answer was ' + quiz[iterator].correct_answer;
     }
@@ -133,13 +135,15 @@ answerArea.addEventListener('click', function (e) {
             if (iterator == quiz.length - 1) {
                 setTimeout(()=> {
                     answerArea.innerText = "";
-                    h2.innerText = "You have completed the quiz. You got " + points + " correct answers out of " + quiz.length;
+                    h2.innerText = "You have made it to the end. Well done! You got " + points +
+                        " correct answers out of " + quiz.length + "\n To play again, make your selections and press restart.";
                 }, 2700)
 
             }else  {
                 iterator++;
                 setTimeout(()=> {
                     answerArea.innerText = "";
+                    progressBar.value++;
                     renderData(quiz[iterator]);
                 }, 2700)
 
@@ -156,9 +160,9 @@ function resetData() {
     points = 0;
     h2.innerText = "";
     answerArea.innerText = "";
+    progressBar.value = 1;
 }
 
-var progressBar = document.querySelector('progress');
 //iterator.addEventListener()
 //progressBar.addEventListener('change', )
 
