@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body{
     background-color: rgb(4, 103, 103);
 }
@@ -32,8 +36,19 @@ body{
     cursor: pointer;
 }
 
+@media screen and (max-width: 600px) {
+    .column {
+        width: 100%;
+        display: block;
+        margin-bottom: 16px;
+    }
+    #level{
+        float: right;
+    }
+}
+
 h2{
-    font-family: "Sitka Display";
+    font-family: "Sitka Display", serif;
     color:rgb(245, 204, 7);
     text-align: center;
 }
@@ -58,15 +73,16 @@ h4{
 }
 
 #level{
+    float: inherit;
     padding: 5px;
     margin: 5px;
     border-radius:5px;
 }
 
 progress{
-    padding: 40px;
+    margin: 15px;
     width: 250px;
-    height: 20px;
+    height: 15px;
     background-color: #eee;
     border-radius: 2px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;

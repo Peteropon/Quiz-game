@@ -121,7 +121,8 @@ answerArea.addEventListener('click', function (e) {
                 }, 1000)
 
             } else {
-                //e.target.classList.toggle('wrong');
+                e.target.classList.add('wrong');
+                e.target.parentNode.classList.toggle('wrong');
                 console.log("wrong");
                 giveReply('n');
                 setTimeout(()=> {
@@ -149,7 +150,8 @@ function resetData() {
     answerArea.innerText = "";
 }
 
-
+var progressBar = document.querySelector('progress');
+//progressBar.addEventListener('change', )
 
 
 //             answerArea.innerText = "";
