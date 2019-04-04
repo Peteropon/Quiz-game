@@ -6,13 +6,8 @@ var points = 0;
 let h2 = document.createElement('h2');
 let answerArea = document.getElementById('answers');
 var iterator = 0;
-var wrongAnswers = [];
 var answers = [];
 var correctAnswer = "";
-var answerButton1 = document.getElementById('answer1');
-var answerButton2 = document.getElementById('answer2');
-var answerButton3 = document.getElementById('answer3');
-var answerButton4 = document.getElementById('answer4');
 
 
 document.getElementById('startbutton').onclick = play;
@@ -68,17 +63,14 @@ function getData() {
 
 
 
-function assignButtons(answers, correct) {
-//    answers.forEach( (answer)=> {
-//    });
-    answerButton1.innerText = answers[3];
-    answerArea.appendChild(answerButton1);
-    answerButton2.innerText = answers[0];
-    answerArea.appendChild(answerButton2);
-    answerButton3.innerText = answers[1];
-    answerArea.appendChild(answerButton3);
-    answerButton4.innerText = answers[2];
-    answerArea.appendChild(answerButton4);
+function assignButtons(answers) {
+    answers.forEach( (answer)=> {
+        var answerButton = document.createElement('div');
+        answerButton.innerHTML = `<div class="column">
+      <button class="answer">${answer}</button>
+  </div>`;
+        answerArea.appendChild(answerButton);
+    });
 }
 
 function renderData(quizQuestion) {
@@ -86,43 +78,52 @@ function renderData(quizQuestion) {
     header.appendChild(h2);
     correctAnswer = quizQuestion.correct_answer;
     answers.push(correctAnswer);
-    //wrongAnswers.push(quizQuestion.correct_answer);
     console.log(quizQuestion.correct_answer);
     quizQuestion.incorrect_answers.forEach((answer) => {
-          wrongAnswers.push(answer);
           answers.push(answer);
       });
 
     answers.sort(function (a, b) {
           return 0.5 - Math.random();
       });
-    assignButtons(answers, correctAnswer);
+    assignButtons(answers);
 
 }
 
 
+function giveReply(x) {
+    var reply = document.createElement('h4');
+    if (x == 'y') {
+        reply.innerText = 'Correct! Well done!';
+    } else {
+        reply.innerText = 'Wrong answer. The correct answer was ' + quiz[iterator].correct_answer;
+    }
+    answerArea.appendChild(reply);
+}
 
-    answerArea.addEventListener('click', function (e) {
+answerArea.addEventListener('click', function (e) {
         if (e.target.nodeName == 'BUTTON') {
-            //alert("something");
-            //console.log(wrongAnswers);
-            console.log(answers);
             wrongAnswers = [];
             answers = [];
 
             if (e.target.innerText == quiz[iterator].correct_answer){
                 console.log("correct");
-                e.target.classList.toggle('correct');
+                e.target.parentNode.classList.toggle('correct');
+                e.target.classList.add('correct');
+                e.target.parentNode.classList.toggle('anwser');
                 points++;
+                giveReply('y');
                 console.log(points);
                 setTimeout(()=> {
                     e.target.classList.toggle('correct');
+                    e.target.classList.toggle('anwser');
+
                 }, 1000)
 
             } else {
-                e.target.classList.toggle('wrong');
-                //document.querySelector('correct').classList.toggle('correct');
+                //e.target.classList.toggle('wrong');
                 console.log("wrong");
+                giveReply('n');
                 setTimeout(()=> {
                     e.target.classList.toggle('wrong');
 
@@ -131,10 +132,12 @@ function renderData(quizQuestion) {
             iterator++;
 
             setTimeout(()=> {
+                answerArea.innerText = "";
                 renderData(quiz[iterator]);
-            }, 1000)
+            }, 2700)
 
         }
+
     });
 
 function resetData() {
@@ -143,8 +146,10 @@ function resetData() {
     quiz = [];
     points = 0;
     h2.innerText = "";
-
+    answerArea.innerText = "";
 }
+
+
 
 
 //             answerArea.innerText = "";
