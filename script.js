@@ -77,7 +77,7 @@ function assignButtons(answers) {
 }
 
 function renderData(quizQuestion) {
-    h2.innerText = quizQuestion.question;
+    h2.innerHTML = quizQuestion.question;
     header.appendChild(h2);
     correctAnswer = quizQuestion.correct_answer;
     answers.push(correctAnswer);
@@ -93,13 +93,18 @@ function renderData(quizQuestion) {
 
 }
 
+function decodeHtml(html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+}
 
 function giveReply(x) {
-    var reply = document.createElement('h3');
+    var reply = document.createElement('h4');
     if (x == 'y') {
-        reply.innerText = 'Correct! Good job!';
+        reply.innerHTML = 'Correct! Good job!';
     } else {
-        reply.innerText = 'Wrong answer. The correct answer was ' + quiz[iterator].correct_answer;
+        reply.innerHTML = 'Wrong answer. The correct answer was ' + quiz[iterator].correct_answer;
     }
     answerArea.appendChild(reply);
 }
@@ -108,7 +113,7 @@ answerArea.addEventListener('click', function (e) {
         if (e.target.nodeName == 'BUTTON') {
             answers = [];
 
-            if (e.target.innerText == quiz[iterator].correct_answer){
+            if (e.target.innerText == decodeHtml(quiz[iterator].correct_answer)){
                 console.log("correct");
                 e.target.parentNode.classList.toggle('correct');
                 e.target.classList.add('correct');
