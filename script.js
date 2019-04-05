@@ -13,7 +13,7 @@ progressBar.value = 1;
 
 
 
-
+// initialisation by setting up listeners for the selectors and the introductory text.
 document.getElementById('startbutton').onclick = play;
 var text = document.createElement('h3');
 text.innerText = 'Welcome! \n Please select the amount of questions you want to answer and the level of difficulty. ' +
@@ -32,9 +32,9 @@ levelSelector.addEventListener('change', function (e) {
 });
 
 
-
+// puts together the url and calls the next function which sets the game in motion.
+// then it restarts the game whenever the button is pressed.
 function play(){
-
     url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${level}&type=multiple`;
     getData(url);
     progressBar.max = amount;
@@ -44,8 +44,10 @@ function play(){
 
 }
 
-function getData() {
 
+// sends Http request to the url, creates and array with the question objects
+// and calls the renderData func to take care of the data
+function getData(url) {
     text.innerText = "";
     const xhr = new XMLHttpRequest;
     xhr.onreadystatechange = function() {
@@ -65,7 +67,7 @@ function getData() {
 }
 
 
-
+//receives the array with the answers, loops through them and sets them in buttons
 function assignButtons(answers) {
     answers.forEach( (answer)=> {
         var answerButton = document.createElement('div');
@@ -76,6 +78,9 @@ function assignButtons(answers) {
     });
 }
 
+
+//renders the question text and creates an array with all the answers which then forwards to
+//the assignButtons func
 function renderData(quizQuestion) {
     h2.innerHTML = quizQuestion.question;
     header.appendChild(h2);
@@ -93,26 +98,32 @@ function renderData(quizQuestion) {
 
 }
 
+
+//helper function which decodes the string e.g replace the &quot;
 function decodeHtml(html) {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
 }
 
+
+//helper function that composes a response for the user
 function giveReply(x) {
     var reply = document.createElement('h4');
     if (x == 'y') {
         reply.innerHTML = 'Correct! Good job!';
     } else {
-        reply.innerHTML = 'Wrong answer. The correct answer was ' + quiz[iterator].correct_answer;
+        reply.innerHTML = 'Wrong answer. The correct answer is ' + quiz[iterator].correct_answer;
     }
     answerArea.appendChild(reply);
 }
 
+//Listens for clicks on the buttons
 answerArea.addEventListener('click', function (e) {
         if (e.target.nodeName == 'BUTTON') {
             answers = [];
 
+            //compares the pressed button's text and returns the appropriate answer
             if (e.target.innerText == decodeHtml(quiz[iterator].correct_answer)){
                 console.log("correct");
                 e.target.parentNode.classList.toggle('correct');
@@ -138,6 +149,9 @@ answerArea.addEventListener('click', function (e) {
                 }, 1000)
             }
 
+
+            // after a reply is given, it goes to the next question by increasing the iterator and recursively
+            // starts the new round. If it is the end of the quiz it presents the result to the player
             if (iterator == quiz.length - 1) {
                 setTimeout(()=> {
                     answerArea.innerText = "";
@@ -159,6 +173,7 @@ answerArea.addEventListener('click', function (e) {
 
     });
 
+//Renses data from previous round before the new round.
 function resetData() {
     iterator = 0;
     answers = [];
@@ -169,32 +184,9 @@ function resetData() {
     progressBar.value = 1;
 }
 
-//iterator.addEventListener()
-//progressBar.addEventListener('change', )
 
 
-//             answerArea.innerText = "";
-//             h2.innerText = "";
-//             nextButton.innerHTML = `<button class="nextButton">Next question</button>`;
-//             nextButton.addEventListener('click', getData);
-//             section.appendChild(nextButton);
-//             //if (counter < 5) getData();
-//         } else {
-//             alert("wrong answer");
-//             console.log(e.target.innerText);
-//             console.log(quizQuestion[0].correct_answer);
-//             counter++;
-//             answerArea.innerText = "";
-//             h2.innerText = "";
-//             nextButton.innerHTML = `<button class="nextButton">Next question</button>`;
-//             nextButton.addEventListener('click', getData);
-//             section.appendChild(nextButton);
-//             //if (counter < 5) getData();
-//         }
-//
-//     }
-//
-// });
+
 
 
 

@@ -38,18 +38,9 @@ body{
     grid-area: 5/1/9/4;
 }
 
-@media (25em <= width <= 50em) {
-    .column {
-        width: 100%;
-        display: block;
-        margin-bottom: 1em;
-    }
-
+@media (min-width: 25em) and (max-width: 50em) {
     body{
-        background-color: #2b1f80
-    }
-    header{
-            font-size:4vw;
+        background-color: #2b1f80;
     }
 }
 
