@@ -131,13 +131,13 @@ progress{
     height: 15px;
     background-color: #eee;
     border-radius: 2px;
-    box-shadow: 20 25px 51px rgba(0, 0, 0, 0.25) inset;
 }
 
 #startbutton{
     grid-area: 1/1/2/2;
     color: ivory;
     background-color: rgba(233, 95, 7, 0.8);
+    text-align: center;
     margin: 1em;
     padding: 1em;
     border-radius: 5px;

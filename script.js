@@ -13,7 +13,7 @@ progressBar.value = 1;
 
 
 
-// initialisation by setting up listeners for the selectors and the introductory text.
+// Initialisation by setting up listeners for the selectors and the introductory text.
 document.getElementById('startbutton').onclick = play;
 var text = document.createElement('h3');
 text.innerText = 'Welcome! \n Please select the amount of questions you want to answer and the level of difficulty. ' +
@@ -32,8 +32,8 @@ levelSelector.addEventListener('change', function (e) {
 });
 
 
-// puts together the url and calls the next function which sets the game in motion.
-// then it restarts the game whenever the button is pressed.
+// Puts together the url and calls the next function which sets the game in motion.
+// Then it restarts the game whenever the button is pressed.
 function play(){
     url = `https://opentdb.com/api.php?amount=${amount}&difficulty=${level}&type=multiple`;
     getData(url);
@@ -45,7 +45,7 @@ function play(){
 }
 
 
-// sends Http request to the url, creates and array with the question objects
+// Sends Http request to the url, creates and array with the question objects
 // and calls the renderData func to take care of the data
 function getData(url) {
     text.innerText = "";
@@ -67,7 +67,7 @@ function getData(url) {
 }
 
 
-//receives the array with the answers, loops through them and sets them in buttons
+// Receives the array with the answers, loops through them and sets them in buttons
 function assignButtons(answers) {
     answers.forEach( (answer)=> {
         var answerButton = document.createElement('div');
@@ -79,8 +79,8 @@ function assignButtons(answers) {
 }
 
 
-//renders the question text and creates an array with all the answers which then forwards to
-//the assignButtons func
+// Renders the question text and creates an array with all the answers which then forwards to
+// the assignButtons func
 function renderData(quizQuestion) {
     h2.innerHTML = quizQuestion.question;
     header.appendChild(h2);
@@ -99,7 +99,7 @@ function renderData(quizQuestion) {
 }
 
 
-//helper function which decodes the string e.g replace the &quot;
+// Helper function which decodes the string e.g replace the &quot;
 function decodeHtml(html) {
     var txt = document.createElement("textarea");
     txt.innerHTML = html;
@@ -107,7 +107,7 @@ function decodeHtml(html) {
 }
 
 
-//helper function that composes a response for the user
+// Helper function that composes a response for the user
 function giveReply(x) {
     var reply = document.createElement('h4');
     if (x == 'y') {
@@ -118,12 +118,12 @@ function giveReply(x) {
     answerArea.appendChild(reply);
 }
 
-//Listens for clicks on the buttons
+// Listens for clicks on the buttons
 answerArea.addEventListener('click', function (e) {
         if (e.target.nodeName == 'BUTTON') {
             answers = [];
 
-            //compares the pressed button's text and returns the appropriate answer
+            // Compares the pressed button's text and returns the appropriate answer
             if (e.target.innerText == decodeHtml(quiz[iterator].correct_answer)){
                 console.log("correct");
                 e.target.parentNode.classList.toggle('correct');
@@ -150,7 +150,7 @@ answerArea.addEventListener('click', function (e) {
             }
 
 
-            // after a reply is given, it goes to the next question by increasing the iterator and recursively
+            // After a reply is given, it goes to the next question by increasing the iterator and
             // starts the new round. If it is the end of the quiz it presents the result to the player
             if (iterator == quiz.length - 1) {
                 setTimeout(()=> {
@@ -173,7 +173,7 @@ answerArea.addEventListener('click', function (e) {
 
     });
 
-//Renses data from previous round before the new round.
+// Deletes the data from the previous round before the new round begins.
 function resetData() {
     iterator = 0;
     answers = [];
