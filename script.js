@@ -40,8 +40,6 @@ function play(){
     progressBar.max = amount;
     document.getElementById('startbutton').innerText = 'Restart';
     resetData();
-    console.log(quiz.length);
-
 }
 
 
@@ -53,7 +51,7 @@ function getData(url) {
     xhr.onreadystatechange = function() {
         if(xhr.readyState == 4){
             if(xhr.status == 200){
-                console.log("Status: 200");
+                console.log("Status: " + xhr.status);
                 data = xhr.response;
                 quiz = data.results;
 
@@ -86,7 +84,6 @@ function renderData(quizQuestion) {
     header.appendChild(h2);
     correctAnswer = quizQuestion.correct_answer;
     answers.push(correctAnswer);
-    console.log(quizQuestion.correct_answer);
     quizQuestion.incorrect_answers.forEach((answer) => {
           answers.push(answer);
       });
@@ -125,13 +122,11 @@ answerArea.addEventListener('click', function (e) {
 
             // Compares the pressed button's text and returns the appropriate answer
             if (e.target.innerText == decodeHtml(quiz[iterator].correct_answer)){
-                console.log("correct");
                 e.target.parentNode.classList.toggle('correct');
                 e.target.classList.add('correct');
                 e.target.parentNode.classList.toggle('anwser');
                 points++;
                 giveReply('y');
-                console.log(points);
                 setTimeout(()=> {
                     e.target.classList.toggle('correct');
                     e.target.classList.toggle('anwser');
@@ -141,7 +136,6 @@ answerArea.addEventListener('click', function (e) {
             } else {
                 e.target.classList.add('wrong');
                 e.target.parentNode.classList.toggle('wrong');
-                console.log("wrong");
                 giveReply('n');
                 setTimeout(()=> {
                     e.target.classList.toggle('wrong');
